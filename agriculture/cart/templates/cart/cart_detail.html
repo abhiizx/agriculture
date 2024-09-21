@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Cart Details</title>
+    <style>
+        .products-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+        }
+        .product-card {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid #ddd;
+            padding: 8px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            width: calc(200.33% - 0px); /* 3 cards per row */
+            box-sizing: border-box;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative; /* Relative positioning to position the button */
+            min-height: 320px; /* Minimum height for cards */
+            padding-bottom: 60px; /* Ensure there is space for the button */
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+    </style>
+</head>
+<body>
+    <h3>Your Cart </h3>
+    <div class="products-container">
+        {% if cart %}
+            
+            <ol>
+                {% for item in cart.cartitem_set.all %}
+                    <div class="product-card">
+                        <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" style="width: 50px; height: auto;"> 
+                        <p>{{ item.product.name }}</span><br>
+                        <p>Quantity: {{ item.quantity }}</p>
+                        <p>Price: {{ item.product.price|floatformat:2 }}</p>
+                        <p>Total: {{ item.product.price|floatformat:2 }}</p><br>
+                        <a href="{% url 'product_details' item.product.id %}">Check It</a>
+                    </div>
+                {% endfor %}
+            </ol>
+            <p><strong>Total Price: {{ cart.total_price|floatformat:2 }}</strong></p>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+</div>
+</body>
+</html>
